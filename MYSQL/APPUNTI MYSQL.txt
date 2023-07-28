@@ -1,0 +1,15 @@
+step where you need to set up the default password for MySQL on HDP 2.65:
+
+su root
+systemctl stop mysqld
+systemctl set-environment MYSQLD_OPTS="--skip-grant-tables --skip-networking"
+systemctl start mysqld
+mysql -uroot
+------- Mysql cmd 
+FLUSH PRIVILEGES;
+alter user 'root'@'localhost' IDENTIFIED BY 'hadoop';
+FLUSH PRIVILEGES;
+QUIT;
+------ CMD
+systemctl unset-environment MYSQLD_OPTS
+systemctl restart mysqld
