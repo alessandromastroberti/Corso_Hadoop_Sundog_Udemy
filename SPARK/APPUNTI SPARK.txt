@@ -1,0 +1,11 @@
+Settaggio Spark1: (da ssh maria_dev@127.0.0.1 -p 2222)
+
+- export SPARK_MAJOR_VERSION=1
+- spark-submit <file.py>
+
+
+
+Settaggio Spark2.0: (da ssh maria_dev@127.0.0.1 -p 2222)
+
+- export SPARK_MAJOR_VERSION=2
+- spark-submit <file.py>

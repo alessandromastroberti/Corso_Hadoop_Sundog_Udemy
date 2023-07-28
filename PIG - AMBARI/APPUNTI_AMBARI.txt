@@ -1,0 +1,5 @@
+CREARE UTENTE ADMIN DI AMBARI:
+
+- accedi a ssh con maria_dev
+- su root 
+- ambari-admin-password-reset

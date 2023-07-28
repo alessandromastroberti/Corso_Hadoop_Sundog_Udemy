@@ -1,0 +1,44 @@
+--Disattivare SAFEMODE--
+
+(accedi con su) --> sudo -u hdfs hdfs dfsadmin -safemode leave
+
+
+--Query HQL per selezionare film in base al numero di valutazioni ricevute--
+
+CREATE VIEW topMovieIDs AS
+SELECT movieid, COUNT(movieid) AS ratingCount
+FROM ratings
+GROUP BY movieid
+ORDER BY ratingCount DESC;
+
+
+SELECT m.name, t.ratingCount
+FROM topMovieIDs t JOIN movie_names m ON t.movieid = m.movie_id;
+
+
+
+--Query HQL per selezionare film con AVG più alta e almeno 11 valutazioni--
+
+\\ METODO 1 \\
+
+CREATE view IF NOT EXISTS HighAverageFilm AS
+SELECT movieid, AVG(rating) as averageRating, COUNT(rating) as ratingCount
+FROM ratings
+GROUP BY movieid
+HAVING(ratingCount) > 10;
+
+SELECT m.name, h.averageRating, h.ratingCount
+FROM HighAverageFilm h JOIN movie_names m ON h.movieid = m.movie_id
+ORDER BY h.averageRating DESC;
+
+\\ METODO 2 \\
+
+CREATE view IF NOT EXISTS avgfilm AS
+SELECT movieid, AVG(rating) as averageRating, COUNT(rating) as ratingCount
+FROM ratings
+GROUP BY movieid
+ORDER BY averageRating DESC;
+
+SELECT m.name, a.averageRating, a.ratingCount
+FROM avgfilm a JOIN movie_names m ON a.movieid = m.movie_id
+WHERE a.ratingCount > 10;
